@@ -1,0 +1,45 @@
+html {
+    font-size: 10px;
+    background: url(http://www.robotaday.com/bots/june%202008%20135.jpg);
+  }
+  
+body,html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+button {
+    margin: 15px 0 0 50px;
+    width: 100px;
+    height: 25px;
+    background-color: darkgreen;
+    color: white;
+}
+
+#canvas {
+    margin: 50px auto;
+    padding: 50px;
+    height: 500px;
+    width: 400px;
+    display: flex;
+    background:orange;
+    border: darkblue solid 4px;
+    box-shadow: 0px 0px 36px 5px rgba(0,0,0,0.58);
+    flex-wrap: wrap;
+}
+
+.pixel {
+/*     height: 100px;
+    width: 100px; */
+    background: white;
+    margin: 0px;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.newColor {
+    background: purple;
+}
