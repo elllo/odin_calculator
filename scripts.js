@@ -47,8 +47,45 @@ function operate (operator, a, b) {
     }
 }
 
-console.log(operate("+", 2, 3))
-console.log(operate("-", 2, 3))
-console.log(operate("*", 2, 3))
-console.log(operate("/", 2, 3))
+let displayString = "";
 
+
+
+function appendDisplay (digit) {
+    displayString += ""+digit;
+    updateDisplay();
+    return displayString;
+}
+
+function updateDisplay (){
+    document.getElementById("display").innerHTML = displayString;
+}
+
+const numberButtons = Array.from(document.querySelectorAll(".number"));
+numberButtons.forEach((numberButton) => {
+    numberButton.addEventListener('click', () => {
+      appendDisplay(numberButton.innerHTML);
+    });
+  });
+
+const opButtons = Array.from(document.querySelectorAll(".operation"));
+opButtons.forEach((opButton) => {
+    opButton.addEventListener('click', () => {
+        if ( isNaN(displayString[displayString.length-1] )) {
+            displayString[displayString.length-1] = opButton.innerHTML;
+        } else {
+            appendDisplay(opButton.innerHTML);
+        }
+    });
+  });
+
+  const clearButton = document.querySelector("#clear");
+  clearButton.addEventListener('click', () => {
+    displayString = '';
+    updateDisplay();
+});
+
+
+console.log(displayString);
+console.log(displayString);
+console.log(numberButtons);
