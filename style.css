@@ -13,17 +13,36 @@ body,html {
 
 button {
     margin: 15px 0 0 50px;
+    font-size: 150%;
     width: 100px;
-    height: 25px;
-    background-color: darkgreen;
+    height: 50px;
+    background-color: darkgrey;
+    color: black;
+}
+
+.operation {
+    background-color: blueviolet;
     color: white;
+    font-weight: 600;
+}
+
+#display {
+    margin: 0 0 0 50px;
+    background-color: black;
+    color: greenyellow;
+    width: 360px;
+    height: 60px;
+    font-size: 300%;
+    font-family: Courier;
+    padding: 20px;
+    text-align: right;
 }
 
 #canvas {
     margin: 50px auto;
     padding: 50px;
     height: 500px;
-    width: 400px;
+    width: 500px;
     display: flex;
     background:orange;
     border: darkblue solid 4px;
