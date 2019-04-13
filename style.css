@@ -27,6 +27,12 @@ button {
     font-weight: 600;
 }
 
+#equals, #clear {
+    background-color: blue;
+    color: white;
+    font-weight: 600;
+}
+
 #display {
     margin: 0 0 0 50px;
     background-color: black;

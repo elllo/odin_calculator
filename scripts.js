@@ -1,19 +1,21 @@
 // here go the scripts
 
+
+let evaluationCache = [];
+let lastNumbers = '';
+let result = '';
+
 function add () {
-	return arguments[0] + arguments[1];
+	return arguments[0]*1 + arguments[1]*1;
 }
-
 function subtract () {
-	return arguments[0] - arguments[1];
+	return arguments[0]*1 - arguments[1]*1;
 }
-
 function multiply () {
-	return arguments[0].reduce((a,b) => a*b, 1);
+	return arguments[0]*1 * arguments[1]*1;
 }
-
 function divide () {
-	return arguments[0].reduce((a,b) => a/b, 1);
+	return arguments[0]*1 / arguments[1]*1;
 }
 
 /* function sum () {
@@ -40,52 +42,89 @@ function operate (operator, a, b) {
             return add (a, b);
         case "-":
             return subtract (a, b);
-        case "*":
-            return multiply ([a, b]);
+        case "x":
+            return multiply (a, b);
         case "/":
-            return divide ([a, b]);
+            return divide (a, b);
     }
 }
 
-let displayString = "";
-
-
-
-function appendDisplay (digit) {
-    displayString += ""+digit;
+function processInput (char) {
+    if (char.match(/[cC]/)) {
+        evaluationCache = [];
+        lastNumbers = '';
+        result = '';
+    } else if (char.match(/[0-9]/)) {
+        lastNumbers += ''+char;
+        result = '';
+    } else if (char.match(/[=]/)) {  
+        if (lastNumbers !== ''){
+            evaluationCache.push(lastNumbers);
+        }
+        result = Number(evaluate(evaluationCache)).toFixed(2);
+        if (isNaN(result) || !isFinite(result)){
+            result = "No way :-P";
+        }
+        evaluationCache = [];
+        lastNumbers = '';
+    }else if (char.match(/[\+\-\*\x\/]/)) {
+        if (lastNumbers !== '') {
+            evaluationCache.push(lastNumbers);
+            lastNumbers = '';
+        }
+        if (evaluationCache.length === 0) {
+            if (result !== '') {
+                evaluationCache.push(result); 
+                evaluationCache.push(char);    
+            }
+        } else {
+            if ( evaluationCache[evaluationCache.length-1].match(/[\+\-\*\x\/]/) ) {
+                evaluationCache.splice(-1,1);
+            }
+            evaluationCache.push(char);
+        }
+        result = '';
+    } 
     updateDisplay();
-    return displayString;
 }
 
 function updateDisplay (){
-    document.getElementById("display").innerHTML = displayString;
+    if (result.length > 11){result = parseInt(result).toString();}
+    if (result.length <= 11) {
+        document.getElementById("display").innerHTML = (evaluationCache.join('') + lastNumbers + result).slice(-11);
+    } else {
+        document.getElementById("display").innerHTML = "overfl err";
+    }
 }
 
-const numberButtons = Array.from(document.querySelectorAll(".number"));
-numberButtons.forEach((numberButton) => {
-    numberButton.addEventListener('click', () => {
-      appendDisplay(numberButton.innerHTML);
-    });
-  });
+function evaluate (input){
+    
+    let evaluation = input;
+    if (isNaN(evaluation[evaluation.length-1]) ) {
+        evaluation.splice(-1,1);
+    }
 
-const opButtons = Array.from(document.querySelectorAll(".operation"));
-opButtons.forEach((opButton) => {
-    opButton.addEventListener('click', () => {
-        if ( isNaN(displayString[displayString.length-1] )) {
-            displayString[displayString.length-1] = opButton.innerHTML;
+    let flag = true;
+    while (flag) {
+        operatorIndex = evaluation.findIndex(item => item === "*" || item === "/");
+        if (operatorIndex === -1) {
+            flag = false;
         } else {
-            appendDisplay(opButton.innerHTML);
+            let operation = operate ( evaluation[operatorIndex], evaluation[operatorIndex-1], evaluation[operatorIndex+1]);
+            evaluation.splice(operatorIndex-1, 3, operation);
         }
+    }
+
+    while (evaluation.length > 1) {
+        let operation = operate ( evaluation[1], evaluation[0], evaluation[2]);
+        evaluation.splice(0, 3, operation);
+    }
+    return evaluation;
+}
+
+const buttons = Array.from(document.querySelectorAll('button'));
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        processInput(button.innerHTML);
     });
   });
-
-  const clearButton = document.querySelector("#clear");
-  clearButton.addEventListener('click', () => {
-    displayString = '';
-    updateDisplay();
-});
-
-
-console.log(displayString);
-console.log(displayString);
-console.log(numberButtons);
