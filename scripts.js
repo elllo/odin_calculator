@@ -113,7 +113,3 @@ buttons.forEach((button) => {
     });
 });
 
-
-let opsi = ["4", "/", "2", "x", "2", "+", "4", "/", "2", "x", "2"];
-//  console.log(opsi);
-console.log(evaluate(opsi));
