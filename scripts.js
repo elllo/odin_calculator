@@ -1,6 +1,5 @@
 // here go the scripts
 
-
 let evaluationCache = [];
 let lastNumbers = '';
 let result = '';
@@ -17,24 +16,6 @@ function multiply () {
 function divide () {
 	return arguments[0]*1 / arguments[1]*1;
 }
-
-/* function sum () {
-	return arguments[0].reduce((a,b) => a+b, 0);
-}
-
-function power() {
-	return arguments[0]**arguments[1];
-}
-
-function factorial() {
-	let a = arguments[0];
-	if (a === 0) return 1;
-	let fac = 1;
-	for (let i = a ; i > 0 ; i--){
-		fac *= i;
-	}
-	return fac;
-} */
 
 function operate (operator, a, b) {
     switch (operator) {
@@ -99,20 +80,27 @@ function updateDisplay (){
 
 function evaluate (input){
     
+    //console.log(input);
     let evaluation = input;
     if (isNaN(evaluation[evaluation.length-1]) ) {
         evaluation.splice(-1,1);
     }
 
+    console.log(evaluation);
+
+    let operatorIndex;
     let flag = true;
     while (flag) {
-        operatorIndex = evaluation.findIndex(item => item === "*" || item === "/");
+        operatorIndex = evaluation.findIndex(item => item === "x" || item === "/");
+        console.log(operatorIndex);
         if (operatorIndex === -1) {
             flag = false;
         } else {
             let operation = operate ( evaluation[operatorIndex], evaluation[operatorIndex-1], evaluation[operatorIndex+1]);
             evaluation.splice(operatorIndex-1, 3, operation);
         }
+        console.log(evaluation);
+
     }
 
     while (evaluation.length > 1) {
@@ -127,4 +115,9 @@ buttons.forEach((button) => {
     button.addEventListener('click', () => {
         processInput(button.innerHTML);
     });
-  });
+});
+
+
+let opsi = ["4", "/", "2", "x", "2", "+", "4", "/", "2", "x", "2"];
+//  console.log(opsi);
+console.log(evaluate(opsi));
