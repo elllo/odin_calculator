@@ -80,26 +80,22 @@ function updateDisplay (){
 
 function evaluate (input){
     
-    //console.log(input);
     let evaluation = input;
     if (isNaN(evaluation[evaluation.length-1]) ) {
         evaluation.splice(-1,1);
     }
 
-    console.log(evaluation);
 
     let operatorIndex;
     let flag = true;
     while (flag) {
         operatorIndex = evaluation.findIndex(item => item === "x" || item === "/");
-        console.log(operatorIndex);
         if (operatorIndex === -1) {
             flag = false;
         } else {
             let operation = operate ( evaluation[operatorIndex], evaluation[operatorIndex-1], evaluation[operatorIndex+1]);
             evaluation.splice(operatorIndex-1, 3, operation);
         }
-        console.log(evaluation);
 
     }
 
